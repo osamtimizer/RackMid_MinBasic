@@ -1,9 +1,11 @@
 require 'base64'
+require 'yaml'
 
 class Basic
-  USERNAME = "HOGE"
-  PASSWORD = "FUGA"
+
   UNAUTHORIZED = [401, { "Content-Type" => "text/html", "WWW-Authenticate" => "Basic" }, ["BASIC Auth required.\n"]]
+  CONFIG = YAML.load_file(File.join(__dir__, 'config.yml'))
+
   def initialize(app)
     @app = app
   end
@@ -14,7 +16,7 @@ class Basic
     return UNAUTHORIZED unless head
 
     user, pass = Base64.decode64(head).split(':')
-    if user == USERNAME && pass == PASSWORD
+    if user == CONFIG["username"] && pass == CONFIG["password"]
       res
     else
       UNAUTHORIZED

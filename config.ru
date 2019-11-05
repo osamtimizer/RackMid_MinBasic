@@ -1,7 +1,5 @@
 require 'rack'
-require 'pry'
 require './basic'
-require './hoge'
 
 use Basic
 

@@ -1,6 +1,6 @@
 # RackMid_MinBasic
 
-Minimum Rack middleware implementing Basic Authentication.
+Minimum Rack middleware implementing Basic Authorization.
 
 ## Usage
 
@@ -16,4 +16,22 @@ You can login with the following info.
 ```
 user: HOGE
 pass: FUGA
+```
+
+### If you want to login via cURL
+
+Username and Password must be encoded by BASE64 without `\n`.
+
+```
+$ echo "HOGE:FUGA" | base64
+SE9HRTpGVUdBCg==
+
+$ curl http://localhost:9292 -H "Authorization: Basic SE9HRTpGVUdBCg=="
+BASIC Auth required.
+
+$ echo -n "HOGE:FUGA" | base64
+SE9HRTpGVUdB
+
+$ curl http://localhost:9292 -H "Authorization: Basic SE9HRTpGVUdB"
+Hello, World
 ```

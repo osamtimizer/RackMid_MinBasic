@@ -11,13 +11,12 @@ class Basic
   end
 
   def call(env)
-    res = @app.call(env)
     _, head = env["HTTP_AUTHORIZATION"].split(' ')
     return UNAUTHORIZED unless head
 
     user, pass = Base64.decode64(head).split(':')
     if user == CONFIG["username"] && pass == CONFIG["password"]
-      res
+      @app.call(env)
     else
       UNAUTHORIZED
     end
